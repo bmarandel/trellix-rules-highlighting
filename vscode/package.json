@@ -1,0 +1,112 @@
+{
+  "name": "trellix-rules",
+  "displayName": "Trellix Rules (Expert Rules & IOC Rules)",
+  "description": "Syntax highlighting for Trellix ENS Expert Rules (.expertrule/.er) and Trellix EDR / Forensics HX IOC rules (OpenIOC .ioc, HX .rule JSON).",
+  "version": "0.2.1",
+  "publisher": "bmarandel",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bmarandel/trellix-rules-highlighting.git"
+  },
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Snippets"
+  ],
+  "keywords": [
+    "trellix",
+    "ens",
+    "expert rules",
+    "exploit prevention",
+    "mcafee",
+    "tcl",
+    "ioc",
+    "openioc",
+    "hx",
+    "edr",
+    "forensics"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "trellix-expert-rules",
+        "aliases": [
+          "Trellix Expert Rules",
+          "Expert Rules",
+          "expertrule"
+        ],
+        "extensions": [
+          ".expertrule",
+          ".er"
+        ],
+        "configuration": "./language-configuration.json"
+      },
+      {
+        "id": "trellix-openioc",
+        "aliases": [
+          "Trellix OpenIOC",
+          "OpenIOC"
+        ],
+        "extensions": [
+          ".ioc"
+        ],
+        "configuration": "./ioc-language-configuration-xml.json"
+      },
+      {
+        "id": "trellix-hx-rule",
+        "aliases": [
+          "Trellix HX Rule",
+          "HX Rule"
+        ],
+        "extensions": [
+          ".rule"
+        ],
+        "configuration": "./ioc-language-configuration-json.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "trellix-expert-rules",
+        "scopeName": "source.trellix.expertrules",
+        "path": "./syntaxes/expert-rules.tmLanguage.json"
+      },
+      {
+        "scopeName": "markdown.expertrules.codeblock",
+        "path": "./syntaxes/expert-rules.markdown.tmLanguage.json",
+        "injectTo": [
+          "text.html.markdown"
+        ],
+        "embeddedLanguages": {
+          "meta.embedded.block.expertrules": "trellix-expert-rules"
+        }
+      },
+      {
+        "language": "trellix-openioc",
+        "scopeName": "text.xml.trellix.openioc",
+        "path": "./syntaxes/openioc.tmLanguage.json"
+      },
+      {
+        "language": "trellix-hx-rule",
+        "scopeName": "source.json.trellix.hxrule",
+        "path": "./syntaxes/hx-rule.tmLanguage.json"
+      },
+      {
+        "scopeName": "trellix.ioc.injection",
+        "path": "./syntaxes/ioc-injection.tmLanguage.json",
+        "injectTo": [
+          "text.xml.trellix.openioc",
+          "source.json.trellix.hxrule"
+        ]
+      }
+    ],
+    "snippets": [
+      {
+        "language": "trellix-expert-rules",
+        "path": "./snippets/expert-rules.json"
+      }
+    ]
+  }
+}

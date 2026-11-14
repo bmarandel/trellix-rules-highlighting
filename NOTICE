@@ -1,0 +1,11 @@
+Trellix Rules highlighting
+Copyright 2026 bmarandel (https://github.com/bmarandel)
+
+This product is licensed under the Apache License, Version 2.0 (see LICENSE).
+
+The list of HX event tokens is partly derived from the OpenIOC 1.1 term
+dictionaries published by FireEye (https://github.com/fireeye/OpenIOC_1.1),
+also licensed under the Apache License, Version 2.0.
+
+Trellix is a trademark of its owner. This project is not affiliated with or
+endorsed by Trellix.

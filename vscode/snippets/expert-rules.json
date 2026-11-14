@@ -1,0 +1,108 @@
+{
+  "Rule: process → file": {
+    "prefix": ["rule-file", "Rule"],
+    "description": "AAC rule protecting files",
+    "body": [
+      "Rule {",
+      "\tProcess {",
+      "\t\tInclude OBJECT_NAME { -v ${1:\"**\"} }",
+      "\t}",
+      "\tTarget {",
+      "\t\tMatch FILE {",
+      "\t\t\tInclude OBJECT_NAME { -v \"${2:C:\\\\\\\\test\\\\\\\\**}\" }",
+      "\t\t\tInclude -access \"${3:CREATE WRITE}\"",
+      "\t\t}",
+      "\t}",
+      "}",
+      "$0"
+    ]
+  },
+  "Rule: process → registry key": {
+    "prefix": "rule-registry",
+    "description": "AAC rule protecting a registry key (use VALUE for values)",
+    "body": [
+      "Rule {",
+      "\tProcess {",
+      "\t\tInclude OBJECT_NAME { -v ${1:\"**\"} }",
+      "\t}",
+      "\tTarget {",
+      "\t\tMatch ${2|KEY,VALUE|} {",
+      "\t\t\tInclude OBJECT_NAME { -v \"${3:HKLMS\\\\\\\\Microsoft\\\\\\\\Windows\\\\\\\\CurrentVersion\\\\\\\\Run\\\\\\\\*}\" }",
+      "\t\t\tInclude -access \"${4:CREATE WRITE DELETE}\"",
+      "\t\t}",
+      "\t}",
+      "}",
+      "$0"
+    ]
+  },
+  "Rule: process → process": {
+    "prefix": "rule-process",
+    "description": "AAC rule controlling access to a process (use SECTION to block execution)",
+    "body": [
+      "Rule {",
+      "\tProcess {",
+      "\t\tInclude OBJECT_NAME { -v ${1:\"**\"} }",
+      "\t}",
+      "\tTarget {",
+      "\t\tMatch ${2|PROCESS,SECTION,THREAD|} {",
+      "\t\t\tInclude OBJECT_NAME { -v ${3:notepad.exe} }",
+      "\t\t\tInclude -access \"${4:DELETE TERMINATING}\"",
+      "\t\t}",
+      "\t}",
+      "}",
+      "$0"
+    ]
+  },
+  "Match": {
+    "prefix": "Match",
+    "body": [
+      "Match ${1|FILE,KEY,VALUE,PROCESS,SECTION,THREAD|} {",
+      "\tInclude ${2:OBJECT_NAME} { -v ${3:\"**\"} }",
+      "\tInclude -access \"${4:CREATE}\"",
+      "}"
+    ]
+  },
+  "Include": {
+    "prefix": "Include",
+    "body": ["Include ${1|OBJECT_NAME,PROCESS_CMD_LINE,CERT_NAME_CHAINED,SHA2_256,USER_NAME,GROUP_SID,DESCRIPTION,VTP_TRUST|} { -v ${2:\"*\"} }"]
+  },
+  "Exclude": {
+    "prefix": "Exclude",
+    "body": ["Exclude ${1|OBJECT_NAME,PROCESS_CMD_LINE,CERT_NAME_CHAINED,SHA2_256,USER_NAME,GROUP_SID,DESCRIPTION,VTP_TRUST|} { -v ${2:\"*\"} }"]
+  },
+  "-access": {
+    "prefix": "-access",
+    "body": ["-access \"${1|CREATE,WRITE,READ,DELETE,EXECUTE,RENAME,TERMINATING,LOAD_IMAGE,SET_REPARSE|}$2\""]
+  },
+  "AggregateMatch": {
+    "prefix": "AggregateMatch",
+    "description": "AND-group of conditions inside an OR",
+    "body": [
+      "${1|Include,Exclude|} AggregateMatch -xtype \"${2:name}\" {",
+      "\tInclude ${3:OBJECT_NAME} { -v ${4:\"*\"} }",
+      "\t$0",
+      "}"
+    ]
+  },
+  "Reaction SCAN": {
+    "prefix": "Reaction",
+    "body": ["Reaction SCAN ${1|ACTOR_PROCESS,TARGET_PROCESS|} ScanAction ${2|REPORT,REPORT_CLEAN_PROCESS,REPORT_DELETE_PROCESS,REPORT_CLEAN_DELETE_PROCESS,CLEAN_PROCESS,DELETE_PROCESS,CLEAN_DELETE_PROCESS|}"]
+  },
+  "Next_Process_Behavior": {
+    "prefix": "Next_Process_Behavior",
+    "description": "Chained (behavioural) link — must follow a Match PROCESS in a Target",
+    "body": [
+      "Next_Process_Behavior {",
+      "\tTarget {",
+      "\t\tMatch ${1|PROCESS,FILE,KEY,VALUE,SECTION|} {",
+      "\t\t\t$0",
+      "\t\t}",
+      "\t}",
+      "}"
+    ]
+  },
+  "iEnv": {
+    "prefix": "iEnv",
+    "body": ["[iEnv ${1|SystemRoot,SystemDrive,ProgramFiles,ProgramData|}]"]
+  }
+}
