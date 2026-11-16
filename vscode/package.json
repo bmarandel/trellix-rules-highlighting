@@ -1,8 +1,8 @@
 {
   "name": "trellix-rules",
   "displayName": "Trellix Rules (Expert Rules & IOC Rules)",
-  "description": "Syntax highlighting for Trellix ENS Expert Rules (.expertrule/.er) and Trellix EDR / Forensics HX IOC rules (OpenIOC .ioc, HX .rule JSON).",
-  "version": "0.2.1",
+  "description": "Syntax highlighting for Trellix ENS Expert Rules (Tcl, also inside the content of Trellix Rules Editor YAML files) and Trellix EDR / Forensics HX IOC rules (OpenIOC .ioc, HX .rule JSON).",
+  "version": "0.3.0",
   "publisher": "bmarandel",
   "license": "Apache-2.0",
   "repository": {
@@ -27,7 +27,8 @@
     "openioc",
     "hx",
     "edr",
-    "forensics"
+    "forensics",
+    "yaml"
   ],
   "contributes": {
     "languages": [
@@ -37,10 +38,6 @@
           "Trellix Expert Rules",
           "Expert Rules",
           "expertrule"
-        ],
-        "extensions": [
-          ".expertrule",
-          ".er"
         ],
         "configuration": "./language-configuration.json"
       },
@@ -84,6 +81,16 @@
         }
       },
       {
+        "scopeName": "yaml.expertrules.content",
+        "path": "./syntaxes/expert-rules.yaml.tmLanguage.json",
+        "injectTo": [
+          "source.yaml"
+        ],
+        "embeddedLanguages": {
+          "meta.embedded.block.expertrules": "trellix-expert-rules"
+        }
+      },
+      {
         "language": "trellix-openioc",
         "scopeName": "text.xml.trellix.openioc",
         "path": "./syntaxes/openioc.tmLanguage.json"
@@ -106,6 +113,10 @@
       {
         "language": "trellix-expert-rules",
         "path": "./snippets/expert-rules.json"
+      },
+      {
+        "language": "yaml",
+        "path": "./snippets/expert-rule-yaml.json"
       }
     ]
   }

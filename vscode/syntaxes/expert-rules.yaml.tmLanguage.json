@@ -1,0 +1,16 @@
+{
+  "scopeName": "yaml.expertrules.content",
+  "injectionSelector": "L:source.yaml",
+  "patterns": [
+    {
+      "begin": "(?:(?<=^content: \\|)|(?<=^content: \\|-)|(?<=^content: \\|\\+)|(?<=^content: \\|2)|(?<=^content: \\|2-)|(?<=^content: \\|2\\+))[ \\t]*$",
+      "end": "^(?=\\S)",
+      "contentName": "meta.embedded.block.expertrules",
+      "patterns": [
+        {
+          "include": "source.trellix.expertrules"
+        }
+      ]
+    }
+  ]
+}

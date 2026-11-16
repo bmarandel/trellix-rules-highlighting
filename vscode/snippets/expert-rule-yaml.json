@@ -1,0 +1,41 @@
+{
+  "Trellix Expert Rule (YAML)": {
+    "prefix": [
+      "expert-rule",
+      "trellix-expert-rule"
+    ],
+    "description": "Expert Rule file of Trellix Rules Editor: ePO policy properties (epo:), documentation, Tcl (content:)",
+    "body": [
+      "kind: expert-rule",
+      "title: ${1:Rule name}",
+      "id: ${UUID}",
+      "status: ${2|experimental,test,stable,deprecated|}",
+      "description: |",
+      "  ${3:What the rule protects against (exploit, CVE, technique).}",
+      "references:",
+      "  - ${4:https://}",
+      "author: ${5}",
+      "date: ${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE}",
+      "tags:",
+      "  - ${6:attack.t1003.001}",
+      "epo:",
+      "  type: ${7|Files,Registry,Processes,Services,Buffer Overflow,Illegal API Use|}",
+      "  severity: ${8|medium,high,low,informational|}",
+      "  block: false",
+      "  report: true",
+      "content: |",
+      "  Rule {",
+      "      Process {",
+      "          Include OBJECT_NAME { -v \"**\" }",
+      "      }",
+      "      Target {",
+      "          Match ${9|FILE,KEY,VALUE,PROCESS,SECTION|} {",
+      "              Include OBJECT_NAME { -v \"${10}\" }",
+      "              Include -access \"${11:CREATE}\"",
+      "          }",
+      "      }",
+      "  }",
+      ""
+    ]
+  }
+}
